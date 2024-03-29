@@ -66,6 +66,7 @@ class DetailUserActivity : AppCompatActivity() {
                     .load(it.avatarUrl)
                     .centerCrop()
                     .into(binding.ivDetailProfile)
+
                 binding.apply {
                     tvNickname.text = it.name
                     tvDetailUsername.text = it.login
@@ -74,6 +75,7 @@ class DetailUserActivity : AppCompatActivity() {
                 }
             }
         }
+
         detailViewModel.isLoading.observe(this) {
             showLoading(it)
         }

@@ -1,5 +1,6 @@
 package com.example.submission_fundamental_android.ui.viewModel
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,11 +8,13 @@ import androidx.lifecycle.ViewModel
 import com.example.submission_fundamental_android.data.response.GitHubResponse
 import com.example.submission_fundamental_android.data.response.ItemsItem
 import com.example.submission_fundamental_android.data.retrofit.ApiConfig
+import com.example.submission_fundamental_android.database.Favorite
+import com.example.submission_fundamental_android.repository.FavoriteRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel :ViewModel() {
+class MainViewModel:ViewModel() {
     companion object{
         private const val  TAG = "MainViewModel"
         private const val USERNAME = "Dicoding"

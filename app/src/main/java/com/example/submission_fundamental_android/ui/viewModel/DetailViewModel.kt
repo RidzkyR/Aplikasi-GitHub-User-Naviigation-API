@@ -1,16 +1,19 @@
 package com.example.submission_fundamental_android.ui.viewModel
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.submission_fundamental_android.data.response.DetailUserResponse
 import com.example.submission_fundamental_android.data.retrofit.ApiConfig
+import com.example.submission_fundamental_android.database.Favorite
+import com.example.submission_fundamental_android.repository.FavoriteRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailViewModel : ViewModel() {
+class DetailViewModel: ViewModel() {
 
     companion object {
         private const val TAG = "DetailViewModel"
@@ -37,13 +40,11 @@ class DetailViewModel : ViewModel() {
                     Log.e(TAG, "onFailure: ${response.errorBody()}")
                 }
             }
+
             override fun onFailure(call: Call<DetailUserResponse>, t: Throwable) {
                 _isLoading.value = false
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
-
-            })
+        })
     }
-
-
 }
