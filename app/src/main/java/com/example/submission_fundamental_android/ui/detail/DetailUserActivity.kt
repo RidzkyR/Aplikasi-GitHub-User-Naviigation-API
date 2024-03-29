@@ -45,7 +45,7 @@ class DetailUserActivity : AppCompatActivity() {
         }
 
         // Menangkap data
-        val username =intent.getStringExtra(EXTRA_USERNAME)
+        val username = intent.getStringExtra(EXTRA_USERNAME)
         if (username != null) {
             detailViewModel.userDetail(username)
         }
@@ -66,10 +66,12 @@ class DetailUserActivity : AppCompatActivity() {
                     .load(it.avatarUrl)
                     .centerCrop()
                     .into(binding.ivDetailProfile)
-                binding.tvNickname.text = it.name
-                binding.tvDetailUsername.text = it.login
-                binding.tvFollower.text = getString(R.string.tv_follower, it.followers)
-                binding.tvFollowing.text = getString(R.string.tv_following, it.following)
+                binding.apply {
+                    tvNickname.text = it.name
+                    tvDetailUsername.text = it.login
+                    tvFollower.text = getString(R.string.tv_follower, it.followers)
+                    tvFollowing.text = getString(R.string.tv_following, it.following)
+                }
             }
         }
         detailViewModel.isLoading.observe(this) {
