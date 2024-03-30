@@ -28,6 +28,7 @@ class DetailUserActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_USERNAME = "extra_username"
+        const val EXTRA_AVATAR = "extra_avatar"
 
         @StringRes
         private val TAB_TITLES = intArrayOf(
@@ -51,6 +52,7 @@ class DetailUserActivity : AppCompatActivity() {
 
         // Menangkap data
         val username = intent.getStringExtra(EXTRA_USERNAME)
+        val avatar = intent.getStringExtra(EXTRA_AVATAR)
         if (username != null) {
             detailViewModel.userDetail(username)
         }
@@ -108,7 +110,7 @@ class DetailUserActivity : AppCompatActivity() {
             fabAdd.setOnClickListener {
                 val favorite = Favorite(
                     username = tvDetailUsername.text.toString(),
-                    avatarUrl = ivDetailProfile.toString(),
+                    avatarUrl = avatar.toString(),
                     isFavorite = true
                 )
                 detailViewModel.insert(favorite)

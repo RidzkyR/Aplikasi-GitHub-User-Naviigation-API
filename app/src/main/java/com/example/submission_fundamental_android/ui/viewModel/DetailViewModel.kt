@@ -41,7 +41,7 @@ class DetailViewModel(application: Application) : ViewModel() {
                     if (responseBody != null) {
                         viewModelScope.launch {
                             val isFavorite = mFavoriteRepository.getIsFavorite(responseBody.login)
-                            val currentUser =
+                            val user =
                                 Favorite(
                                     username = responseBody.login,
                                     nickName = responseBody.name,
@@ -50,7 +50,7 @@ class DetailViewModel(application: Application) : ViewModel() {
                                     following = responseBody.following.toString(),
                                     isFavorite = isFavorite
                                 )
-                            _userDetail.postValue(currentUser)
+                            _userDetail.postValue(user)
                         }
                     } else {
                         Log.e(TAG, "onFailure: ${response.errorBody()}")

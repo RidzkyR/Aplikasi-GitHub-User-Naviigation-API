@@ -6,8 +6,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.submission_fundamental_android.R
+import com.example.submission_fundamental_android.data.response.ItemsItem
 import com.example.submission_fundamental_android.databinding.ActivityFavoriteBinding
 import com.example.submission_fundamental_android.helper.ViewModelFactory
 
@@ -34,6 +36,8 @@ class FavoriteActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         binding.rvFavorite.layoutManager = layoutManager
+        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+        binding.rvFavorite.addItemDecoration(itemDecoration)
 
         favoriteViewModel.getAllFavorite().observe(this) { favoriteUsers ->
             val adapter = FavoriteAdapter()

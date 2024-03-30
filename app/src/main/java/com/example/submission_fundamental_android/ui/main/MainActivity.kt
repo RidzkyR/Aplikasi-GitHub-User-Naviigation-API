@@ -1,5 +1,6 @@
 package com.example.submission_fundamental_android.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.submission_fundamental_android.R
 import com.example.submission_fundamental_android.data.response.ItemsItem
 import com.example.submission_fundamental_android.databinding.ActivityMainBinding
+import com.example.submission_fundamental_android.ui.favorite.FavoriteActivity
 import com.example.submission_fundamental_android.ui.viewModel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -54,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         //SearchView
         with(binding) {
             searchView.setupWithSearchBar(searchBar)
+            searchBar.inflateMenu(R.menu.menu)
             searchView
                 .editText
                 .setOnEditorActionListener { _, _, _ ->
@@ -62,6 +65,18 @@ class MainActivity : AppCompatActivity() {
                     searchUser(searchBar.text.toString())
                     false
                 }
+
+            searchBar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.fav_menu -> {
+                        val intent = Intent(this@MainActivity, FavoriteActivity::class.java)
+                        startActivity(intent)
+                        true
+                    }
+                    else -> false
+                }
+            }
+
         }
     }
 

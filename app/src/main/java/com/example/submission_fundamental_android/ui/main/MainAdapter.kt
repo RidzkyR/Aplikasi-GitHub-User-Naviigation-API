@@ -28,6 +28,7 @@ class MainAdapter : ListAdapter<ItemsItem, MainAdapter.ViewHolder>(DIFF_CALLBACK
             binding.root.setOnClickListener {
                 Intent(binding.root.context, DetailUserActivity::class.java).also {
                     it.putExtra(DetailUserActivity.EXTRA_USERNAME, user.login)
+                    it.putExtra(DetailUserActivity.EXTRA_AVATAR, user.avatarUrl)
                     binding.root.context.startActivity(it)
                 }
             }
