@@ -65,6 +65,11 @@ class DetailUserActivity : AppCompatActivity() {
         }.attach()
         supportActionBar?.elevation = 0f
 
+
+        detailViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
+
         detailViewModel.userDetail.observe(this) {
             if (it != null) {
                 Glide.with(this@DetailUserActivity)
@@ -73,16 +78,29 @@ class DetailUserActivity : AppCompatActivity() {
                     .into(binding.ivDetailProfile)
 
                 binding.apply {
-                    tvNickname.text = it.name
-                    tvDetailUsername.text = it.login
-                    tvFollower.text = getString(R.string.tv_follower, it.followers)
+                    tvNickname.text = it.nickName
+                    tvDetailUsername.text = it.username
+                    tvFollower.text = getString(R.string.tv_follower, it.follower)
                     tvFollowing.text = getString(R.string.tv_following, it.following)
+
+                    fabAdd.contentDescription = it.isFavorite.toString()
+
+                    if (!it.isFavorite) {
+                        fabAdd.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this@DetailUserActivity, R.drawable.ic_fav_border
+                            )
+                        )
+                    } else {
+                        fabAdd.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                this@DetailUserActivity, R.drawable.ic_fav_solid
+                            )
+                        )
+                    }
+
                 }
             }
-        }
-
-        detailViewModel.isLoading.observe(this) {
-            showLoading(it)
         }
 
         // tes
@@ -90,9 +108,32 @@ class DetailUserActivity : AppCompatActivity() {
             fabAdd.setOnClickListener {
                 val favorite = Favorite(
                     username = tvDetailUsername.text.toString(),
-                    avatarUrl = ivDetailProfile.toString()
+                    avatarUrl = ivDetailProfile.toString(),
+                    isFavorite = true
                 )
                 detailViewModel.insert(favorite)
+
+                val currentIcon = fabAdd.contentDescription
+
+                if (currentIcon == "true") {
+                    fabAdd.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            this@DetailUserActivity,
+                            R.drawable.ic_fav_border
+                        )
+                    )
+                    detailViewModel.delete(favorite)
+                    fabAdd.contentDescription = "false"
+                } else {
+                    fabAdd.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            this@DetailUserActivity,
+                            R.drawable.ic_fav_solid
+                        )
+                    )
+                    detailViewModel.insert(favorite)
+                    fabAdd.contentDescription = "true"
+                }
             }
         }
         // tes

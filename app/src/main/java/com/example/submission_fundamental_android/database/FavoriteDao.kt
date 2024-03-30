@@ -17,9 +17,9 @@ interface FavoriteDao {
         @Delete
         fun delete(favorite: Favorite)
 
-//        @Query("SELECT EXISTS(SELECT * FROM favorite WHERE username= :username AND isFavorite = 1)")
-//        fun getFavoriteUserByUsername(username: String): Boolean
-
         @Query("SELECT * from favorite ORDER BY username ASC")
         fun getAllFavorite(): LiveData<List<Favorite>>
+
+        @Query("SELECT EXISTS(SELECT * FROM Favorite WHERE username= :username AND isFavorite = 1)")
+        fun isFavorite(username: String): Boolean
 }

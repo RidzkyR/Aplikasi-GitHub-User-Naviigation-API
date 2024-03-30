@@ -15,12 +15,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailViewModel(application: Application): ViewModel() {
+class DetailViewModel(application: Application) : ViewModel() {
 
-    private val mFavoriteRepository: FavoriteRepository = FavoriteRepository(application)  // tes
+    private val mFavoriteRepository: FavoriteRepository = FavoriteRepository(application)
 
-    private val _userDetail = MutableLiveData<DetailUserResponse>()
-    val userDetail: LiveData<DetailUserResponse> = _userDetail
+    private val _userDetail = MutableLiveData<Favorite>()
+    val userDetail: LiveData<Favorite> = _userDetail
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -36,9 +36,26 @@ class DetailViewModel(application: Application): ViewModel() {
             override fun onResponse(call: Call<DetailUserResponse>, response: Response<DetailUserResponse>) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
-                    _userDetail.value = response.body()
-                } else {
-                    Log.e(TAG, "onFailure: ${response.errorBody()}")
+
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        viewModelScope.launch {
+                            val isFavorite = mFavoriteRepository.getIsFavorite(responseBody.login)
+                            val currentUser =
+                                Favorite(
+                                    username = responseBody.login,
+                                    nickName = responseBody.name,
+                                    avatarUrl = responseBody.avatarUrl,
+                                    follower = responseBody.followers.toString(),
+                                    following = responseBody.following.toString(),
+                                    isFavorite = isFavorite
+                                )
+                            _userDetail.postValue(currentUser)
+                        }
+                    } else {
+                        Log.e(TAG, "onFailure: ${response.errorBody()}")
+                    }
+
                 }
             }
 
@@ -49,7 +66,6 @@ class DetailViewModel(application: Application): ViewModel() {
         })
     }
 
-    // tes
     fun insert(favorite: Favorite) {
         mFavoriteRepository.insert(favorite)
     }
@@ -57,5 +73,4 @@ class DetailViewModel(application: Application): ViewModel() {
     fun delete(favorite: Favorite) {
         mFavoriteRepository.delete(favorite)
     }
-    // tes
 }

@@ -18,10 +18,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
-        buildConfigField(
-            "String",
-            "TOKEN",
-            "\"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\""
+        buildConfigField("String", "TOKEN", "\"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\""
         )
     }
 
@@ -34,6 +31,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -67,12 +65,12 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
 
-    //room dependencies
     implementation(libs.androidx.lifecycle.viewmodel.ktx.v262)
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
-    implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
+    //room dependencies
+    implementation(libs.androidx.room.runtime.v260)
+    ksp(libs.androidx.room.compiler.v260)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

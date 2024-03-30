@@ -21,6 +21,7 @@ abstract class FavoriteRoomDatabase : RoomDatabase() {
                     INSTANCE = Room.databaseBuilder(
                         context.applicationContext,
                         FavoriteRoomDatabase::class.java, "favorite_database")
+                        .allowMainThreadQueries()
                         .build()
                 }
             }

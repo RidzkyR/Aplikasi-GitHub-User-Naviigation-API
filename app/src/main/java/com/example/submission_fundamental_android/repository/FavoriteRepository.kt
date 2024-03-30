@@ -18,7 +18,12 @@ class FavoriteRepository(application: Application) {
         mFavoriteDao = db.favoriteDao()
     }
 
-    fun getAllFavorite(): LiveData<List<Favorite>> = mFavoriteDao.getAllFavorite()
+    fun getAllFavorite(): LiveData<List<Favorite>> {
+        return mFavoriteDao.getAllFavorite()
+    }
+    fun getIsFavorite(username: String): Boolean {
+        return mFavoriteDao.isFavorite(username)
+    }
 
     fun insert(favorite: Favorite) {
         executorService.execute { mFavoriteDao.insert(favorite) }
@@ -27,5 +32,4 @@ class FavoriteRepository(application: Application) {
     fun delete(favorite: Favorite) {
         executorService.execute { mFavoriteDao.delete(favorite) }
     }
-
 }
