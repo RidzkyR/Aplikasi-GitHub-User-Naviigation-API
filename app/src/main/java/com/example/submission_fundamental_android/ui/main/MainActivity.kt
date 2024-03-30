@@ -7,14 +7,21 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.submission_fundamental_android.R
 import com.example.submission_fundamental_android.data.response.ItemsItem
 import com.example.submission_fundamental_android.databinding.ActivityMainBinding
 import com.example.submission_fundamental_android.ui.favorite.FavoriteActivity
+import com.example.submission_fundamental_android.ui.theme.SettingPreferences
+import com.example.submission_fundamental_android.ui.theme.ThemeActivity
+import com.example.submission_fundamental_android.ui.theme.ThemeViewModel
+import com.example.submission_fundamental_android.ui.theme.ThemeViewModelFactory
+import com.example.submission_fundamental_android.ui.theme.dataStore
 import com.example.submission_fundamental_android.ui.viewModel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +38,16 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        val pref = SettingPreferences.getInstance(application.dataStore)
+        val themeViewModel = ViewModelProvider(this, ThemeViewModelFactory(pref))[ThemeViewModel::class.java]
+        themeViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
         }
 
         // mengatur tampilan  layout
@@ -70,6 +87,11 @@ class MainActivity : AppCompatActivity() {
                 when (it.itemId) {
                     R.id.fav_menu -> {
                         val intent = Intent(this@MainActivity, FavoriteActivity::class.java)
+                        startActivity(intent)
+                        true
+                    }
+                    R.id.theme_menu -> {
+                        val intent = Intent(this@MainActivity, ThemeActivity::class.java)
                         startActivity(intent)
                         true
                     }

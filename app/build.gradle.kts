@@ -68,9 +68,14 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx.v262)
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
-    //room dependencies
+    // room dependencies
     implementation(libs.androidx.room.runtime.v260)
     ksp(libs.androidx.room.compiler.v260)
+
+    // Theme
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

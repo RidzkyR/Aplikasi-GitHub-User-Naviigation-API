@@ -7,5 +7,10 @@
             android:icon="@drawable/ic_fav_solid"
             android:title="Menu Favorite"
             app:showAsAction="ifRoom" />
+
+        <item
+            android:id="@+id/theme_menu"
+            android:title="Ubah Tema"
+            app:showAsAction="never" />
     </group>
 </menu>
