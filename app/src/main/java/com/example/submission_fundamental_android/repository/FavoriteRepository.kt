@@ -18,7 +18,7 @@ class FavoriteRepository(application: Application) {
         mFavoriteDao = db.favoriteDao()
     }
 
-    fun getAllNotes(): LiveData<List<Favorite>> = mFavoriteDao.getAllNotes()
+    fun getAllFavorite(): LiveData<List<Favorite>> = mFavoriteDao.getAllFavorite()
 
     fun insert(favorite: Favorite) {
         executorService.execute { mFavoriteDao.insert(favorite) }
@@ -28,7 +28,4 @@ class FavoriteRepository(application: Application) {
         executorService.execute { mFavoriteDao.delete(favorite) }
     }
 
-    fun update(favorite: Favorite) {
-        executorService.execute { mFavoriteDao.update(favorite) }
-    }
 }

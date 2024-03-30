@@ -14,12 +14,12 @@ interface FavoriteDao {
         @Insert(onConflict = OnConflictStrategy.IGNORE)
         fun insert(favorite: Favorite)
 
-        @Update
-        fun update(favorite: Favorite)
-
         @Delete
         fun delete(favorite: Favorite)
 
+//        @Query("SELECT EXISTS(SELECT * FROM favorite WHERE username= :username AND isFavorite = 1)")
+//        fun getFavoriteUserByUsername(username: String): Boolean
+
         @Query("SELECT * from favorite ORDER BY username ASC")
-        fun getAllNotes(): LiveData<List<Favorite>>
+        fun getAllFavorite(): LiveData<List<Favorite>>
 }

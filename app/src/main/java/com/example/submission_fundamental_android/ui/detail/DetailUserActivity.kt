@@ -7,19 +7,24 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.submission_fundamental_android.R
+import com.example.submission_fundamental_android.database.Favorite
 import com.example.submission_fundamental_android.databinding.ActivityDetailUserBinding
+import com.example.submission_fundamental_android.helper.ViewModelFactory
 import com.example.submission_fundamental_android.ui.viewModel.DetailViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailUserActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailUserBinding
-    private val detailViewModel by viewModels<DetailViewModel>()
+    private val detailViewModel by viewModels<DetailViewModel> {
+        ViewModelFactory.getInstance(application)
+    }
 
     companion object {
         const val EXTRA_USERNAME = "extra_username"
@@ -79,6 +84,18 @@ class DetailUserActivity : AppCompatActivity() {
         detailViewModel.isLoading.observe(this) {
             showLoading(it)
         }
+
+        // tes
+        binding.apply {
+            fabAdd.setOnClickListener {
+                val favorite = Favorite(
+                    username = tvDetailUsername.text.toString(),
+                    avatarUrl = ivDetailProfile.toString()
+                )
+                detailViewModel.insert(favorite)
+            }
+        }
+        // tes
     }
 
     private fun showLoading(isLoading: Boolean) {

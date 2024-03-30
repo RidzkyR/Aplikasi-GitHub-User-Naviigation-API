@@ -5,19 +5,19 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.submission_fundamental_android.data.response.DetailUserResponse
 import com.example.submission_fundamental_android.data.retrofit.ApiConfig
 import com.example.submission_fundamental_android.database.Favorite
 import com.example.submission_fundamental_android.repository.FavoriteRepository
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailViewModel: ViewModel() {
+class DetailViewModel(application: Application): ViewModel() {
 
-    companion object {
-        private const val TAG = "DetailViewModel"
-    }
+    private val mFavoriteRepository: FavoriteRepository = FavoriteRepository(application)  // tes
 
     private val _userDetail = MutableLiveData<DetailUserResponse>()
     val userDetail: LiveData<DetailUserResponse> = _userDetail
@@ -25,14 +25,15 @@ class DetailViewModel: ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    companion object {
+        private const val TAG = "DetailViewModel"
+    }
+
     fun userDetail(username: String) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getDetailUser(username)
         client.enqueue(object : Callback<DetailUserResponse> {
-            override fun onResponse(
-                call: Call<DetailUserResponse>,
-                response: Response<DetailUserResponse>,
-            ) {
+            override fun onResponse(call: Call<DetailUserResponse>, response: Response<DetailUserResponse>) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
                     _userDetail.value = response.body()
@@ -47,4 +48,14 @@ class DetailViewModel: ViewModel() {
             }
         })
     }
+
+    // tes
+    fun insert(favorite: Favorite) {
+        mFavoriteRepository.insert(favorite)
+    }
+
+    fun delete(favorite: Favorite) {
+        mFavoriteRepository.delete(favorite)
+    }
+    // tes
 }
